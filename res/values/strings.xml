@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ColorApp</string>
+    <string name="action_about">Over deze app</string>
+    <string name="dialog_title_about">Over deze app</string>
+    <string name="dialog_content_about">ColorApp v.1.0\nDoor Inventeers\nVoor de Willie Wortel wedstrijd</string>
+
+</resources>
