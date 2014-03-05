@@ -72,7 +72,6 @@ public class MainActivity extends Activity {
 				
 				ImageView img = (ImageView) v;
 				
-				
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					int x = (int) event.getX();
 					int y = (int) event.getY();
@@ -86,7 +85,10 @@ public class MainActivity extends Activity {
 					handler.removeCallbacks(delayedHide);
 					handler.postDelayed(delayedHide, 3 * 1000);
 					
-					//Toast.makeText(getApplicationContext(), "Color " + pixel, Toast.LENGTH_SHORT).show();
+					String colorName = ColorExt.getColorName(pixel);
+					if (colorName != null) {
+						Toast.makeText(getApplicationContext(), colorName, Toast.LENGTH_SHORT).show();
+					}
 				}
 				
 				return false;
