@@ -6,6 +6,7 @@ import java.io.IOException;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,9 +33,15 @@ public class MainActivity extends Activity {
 	static final int BROWSE_IMG = 0x1001;
 	static final int CAPTURE_IMG = 0x1002;
 	
+	boolean usedOnce = false;
+	
 	ImageView img;
 	Button browseBtn;
 	Button camBtn;
+	View colorBlock;
+	
+	Runnable delayedHide;
+	Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +51,27 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
         
+        // Color block
+        colorBlock = findViewById(R.id.colorBlock);
+        
+        // Set delayed hide function
+        delayedHide = new Runnable() {
+			@Override
+			public void run() {
+				colorBlock.setVisibility(View.INVISIBLE);
+			}
+		};
+        
         // Image view
         img = (ImageView) findViewById(R.id.img_view);
         img.setOnTouchListener(new View.OnTouchListener() {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				
+				if (!usedOnce) return false;
+				
 				ImageView img = (ImageView) v;
+				
 				
 				if (event.getAction() == MotionEvent.ACTION_DOWN) {
 					int x = (int) event.getX();
@@ -58,11 +79,12 @@ public class MainActivity extends Activity {
 					
 					Bitmap bmp = ((BitmapDrawable) img.getDrawable()).getBitmap();
 					
-					// Calc scaling
+					int pixel = bmp.getPixel(x, y);
+					colorBlock.setVisibility(View.VISIBLE);
+					colorBlock.setBackgroundColor(pixel);
 					
-					
-					return false;
-					//int pixel = bmp.getPixel(x, y);
+					handler.removeCallbacks(delayedHide);
+					handler.postDelayed(delayedHide, 3 * 1000);
 					
 					//Toast.makeText(getApplicationContext(), "Color " + pixel, Toast.LENGTH_SHORT).show();
 				}
@@ -96,24 +118,15 @@ public class MainActivity extends Activity {
     
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    	
     	Bitmap imgBmp;
+    	Bitmap scaled;
     	Uri selectedImg = null;
     	
     	if (resultCode == RESULT_OK) {
     		switch (requestCode) {
 			case BROWSE_IMG:
-				selectedImg = data.getData();
-				
-				break;
-				
 			case CAPTURE_IMG:
-				/*Bundle extra = data.getExtras();
-				imgBmp = (Bitmap) extra.get("data");
-				
-				img.setAdjustViewBounds(true);
-				img.setScaleType(ScaleType.FIT_XY);
-				img.setImageBitmap(imgBmp);*/
-				
 				selectedImg = data.getData();
 				
 				break;
@@ -159,9 +172,6 @@ public class MainActivity extends Activity {
 				int newWidth = img.getMeasuredWidth();
 				int newHeight = img.getMeasuredHeight();
 				
-				Log.i(ACTIVITY_SERVICE, "w:" + newWidth);
-				Log.i(ACTIVITY_SERVICE, "h:" + newHeight);
-				
 				float scaleWidth = ((float) newWidth) / origWidth;
 				float scaleHeight = ((float) newHeight) / origHeight;
 				
@@ -170,10 +180,14 @@ public class MainActivity extends Activity {
 				matrix.postRotate(rotate);
 				
 				try {
-					Bitmap scaled = Bitmap.createBitmap(imgBmp, 0, 0, origWidth, origHeight, matrix, true);
-					img.setAdjustViewBounds(true);
+					imgBmp = Bitmap.createBitmap(imgBmp, 0, 0, origWidth, origHeight, matrix, true);
+					scaled = Bitmap.createScaledBitmap(imgBmp, newWidth, newHeight, true);
+					
+					//img.setAdjustViewBounds(true);
 					img.setScaleType(ScaleType.FIT_XY);
 					img.setImageBitmap(scaled);
+					
+					usedOnce = true;
 					
 					Toast.makeText(getApplicationContext(), "Afbeelding klaar voor gebruik", Toast.LENGTH_SHORT).show();
 				} catch (Exception e) {
