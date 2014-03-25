@@ -29,7 +29,7 @@
         android:layout_marginBottom="9dp"
         android:visibility="invisible" />
 
-    <Button
+    <ImageButton
         android:id="@+id/cam_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -37,18 +37,32 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="14dp"
-        android:text="Cam"
-        tools:ignore="HardcodedText" />
+        android:background="@null"
+        android:src="@drawable/btn_photo"
+        tools:ignore="ContentDescription" />
 
-    <Button
+    <ImageButton
         android:id="@+id/browse_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/cam_btn"
         android:layout_alignBottom="@+id/cam_btn"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="14dp"
-        android:text="Browse"
-        tools:ignore="HardcodedText" />
+        android:background="@null"
+        android:maxWidth="2dp"
+        android:padding="4dp"
+        android:src="@drawable/btn_browse"
+        tools:ignore="ContentDescription" />
+
+    <ProgressBar
+        android:id="@+id/indicator"
+        android:layout_width="6dp"
+        android:layout_height="6dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="28dp"
+        android:indeterminateBehavior="cycle"
+        android:minHeight="6dip"
+        android:minWidth="6dip"
+        android:visibility="invisible" />
 
 </RelativeLayout>

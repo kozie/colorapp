@@ -21,14 +21,17 @@ public final class R {
         public static final int activity_vertical_margin=0x7f040001;
     }
     public static final class drawable {
-        public static final int ic_launcher=0x7f020000;
+        public static final int btn_browse=0x7f020000;
+        public static final int btn_photo=0x7f020001;
+        public static final int ic_launcher=0x7f020002;
     }
     public static final class id {
-        public static final int action_about=0x7f080004;
+        public static final int action_about=0x7f080005;
         public static final int browse_btn=0x7f080003;
         public static final int cam_btn=0x7f080002;
         public static final int colorBlock=0x7f080001;
         public static final int img_view=0x7f080000;
+        public static final int indicator=0x7f080004;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;

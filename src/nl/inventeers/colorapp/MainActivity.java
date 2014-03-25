@@ -23,9 +23,11 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout.LayoutParams;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -36,9 +38,10 @@ public class MainActivity extends Activity {
 	boolean usedOnce = false;
 	
 	ImageView img;
-	Button browseBtn;
-	Button camBtn;
+	ImageButton browseBtn;
+	ImageButton camBtn;
 	View colorBlock;
+	ProgressBar indicator;
 	
 	Runnable delayedHide;
 	Handler handler = new Handler();
@@ -61,6 +64,9 @@ public class MainActivity extends Activity {
 				colorBlock.setVisibility(View.INVISIBLE);
 			}
 		};
+		
+		// Indicator
+		indicator = (ProgressBar) findViewById(R.id.indicator);
         
         // Image view
         img = (ImageView) findViewById(R.id.img_view);
@@ -76,6 +82,15 @@ public class MainActivity extends Activity {
 					int x = (int) event.getX();
 					int y = (int) event.getY();
 					
+					LayoutParams params = new LayoutParams(
+					        LayoutParams.WRAP_CONTENT,      
+					        LayoutParams.WRAP_CONTENT
+					);
+					params.setMargins(x - 64, y - 64, 0, 0);
+					
+					indicator.setVisibility(View.VISIBLE);
+					indicator.setLayoutParams(params);
+					
 					Bitmap bmp = ((BitmapDrawable) img.getDrawable()).getBitmap();
 					
 					int pixel = bmp.getPixel(x, y);
@@ -83,11 +98,11 @@ public class MainActivity extends Activity {
 					colorBlock.setBackgroundColor(pixel);
 					
 					handler.removeCallbacks(delayedHide);
-					handler.postDelayed(delayedHide, 3 * 1000);
+					handler.postDelayed(delayedHide, 6 * 1000);
 					
 					String colorName = ColorExt.getColorName(pixel);
 					if (colorName != null) {
-						Toast.makeText(getApplicationContext(), colorName, Toast.LENGTH_SHORT).show();
+						Toast.makeText(getApplicationContext(), colorName, Toast.LENGTH_LONG).show();
 					}
 				}
 				
@@ -96,7 +111,7 @@ public class MainActivity extends Activity {
 		});
         
         // Browser button
-        browseBtn = (Button) findViewById(R.id.browse_btn);
+        browseBtn = (ImageButton) findViewById(R.id.browse_btn);
         browseBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -107,7 +122,7 @@ public class MainActivity extends Activity {
 		});
         
         // Photo button
-        camBtn = (Button) findViewById(R.id.cam_btn);
+        camBtn = (ImageButton) findViewById(R.id.cam_btn);
         camBtn.setOnClickListener(new View.OnClickListener() {
 			
 			@Override

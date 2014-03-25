@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">ColorApp</string>
-    <string name="action_about">Over deze app</string>
-    <string name="dialog_title_about">Over deze app</string>
-    <string name="dialog_content_about">ColorApp v.1.0\nDoor Inventeers\nVoor de Willie Wortel wedstrijd</string>
+    <string name="app_name">ColorBlindApp</string>
+    <string name="action_about">Over ColorBlindApp</string>
+    <string name="dialog_title_about">Over ColorBlindApp</string>
+    <string name="dialog_content_about">ColorBlindApp ver.1.0\nDoor\nBas Helder\nMigchiel Nijhof\nWessel van Leur\n\nIn samenwerking met Inventeers\nVoor de Willie Wortel Wedstrijd</string>
 
 </resources>
