@@ -27,7 +27,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
@@ -41,7 +40,7 @@ public class MainActivity extends Activity {
 	ImageButton browseBtn;
 	ImageButton camBtn;
 	View colorBlock;
-	ProgressBar indicator;
+	View indicator;
 	
 	Runnable delayedHide;
 	Handler handler = new Handler();
@@ -66,7 +65,7 @@ public class MainActivity extends Activity {
 		};
 		
 		// Indicator
-		indicator = (ProgressBar) findViewById(R.id.indicator);
+		indicator = (View) findViewById(R.id.indicator);
         
         // Image view
         img = (ImageView) findViewById(R.id.img_view);
@@ -83,7 +82,7 @@ public class MainActivity extends Activity {
 					int y = (int) event.getY();
 					
 					LayoutParams params = new LayoutParams(
-					        LayoutParams.WRAP_CONTENT,      
+					        LayoutParams.WRAP_CONTENT,
 					        LayoutParams.WRAP_CONTENT
 					);
 					params.setMargins(x - 64, y - 64, 0, 0);

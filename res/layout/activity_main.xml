@@ -18,7 +18,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:scaleType="fitCenter"
-        android:src="@drawable/ic_launcher"
+        android:src="@drawable/icon"
         tools:ignore="ContentDescription" />
 
     <View
@@ -54,15 +54,9 @@
         android:src="@drawable/btn_browse"
         tools:ignore="ContentDescription" />
 
-    <ProgressBar
+    <View
         android:id="@+id/indicator"
-        android:layout_width="6dp"
-        android:layout_height="6dp"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="28dp"
-        android:indeterminateBehavior="cycle"
-        android:minHeight="6dip"
-        android:minWidth="6dip"
-        android:visibility="invisible" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </RelativeLayout>
