@@ -36,7 +36,7 @@ public class ColorExt extends Color {
 				if (h >= 0 && h <= 13) {
 					colorString = "Bruin";
 				} else if (h > 13 && h <= 38) {
-					colorString = "Goud";
+					colorString = "Bruin";
 				} else if (h > 38 && h <= 60) {
 					colorString = "Goud";
 				} else if (h > 60 && h <= 136) {
@@ -52,7 +52,7 @@ public class ColorExt extends Color {
 				} else if (h > 222 && h <= 315) {
 					colorString = "Donker Blauw";
 				} else if (h > 315 && h <= 360) {
-					colorString = "Bordeaux Rood";
+					colorString = "Rood"; /* Bordaux */
 				}
 			} else if (v > 0.85) {
 				// Bright colors

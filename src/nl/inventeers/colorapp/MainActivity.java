@@ -40,7 +40,9 @@ public class MainActivity extends Activity {
 	ImageButton browseBtn;
 	ImageButton camBtn;
 	View colorBlock;
-	View indicator;
+	View colorBlockBorder;
+	View colorBlockBg;
+	ImageView indicator;
 	
 	Runnable delayedHide;
 	Handler handler = new Handler();
@@ -55,17 +57,21 @@ public class MainActivity extends Activity {
         
         // Color block
         colorBlock = findViewById(R.id.colorBlock);
+        colorBlockBorder = findViewById(R.id.colorBlockBorder);
+        colorBlockBg = findViewById(R.id.colorBlockBg);
         
         // Set delayed hide function
         delayedHide = new Runnable() {
 			@Override
 			public void run() {
 				colorBlock.setVisibility(View.INVISIBLE);
+				colorBlockBorder.setVisibility(View.INVISIBLE);
+				colorBlockBg.setVisibility(View.INVISIBLE);
 			}
 		};
 		
 		// Indicator
-		indicator = (View) findViewById(R.id.indicator);
+		indicator = (ImageView) findViewById(R.id.indicator);
         
         // Image view
         img = (ImageView) findViewById(R.id.img_view);
@@ -85,7 +91,7 @@ public class MainActivity extends Activity {
 					        LayoutParams.WRAP_CONTENT,
 					        LayoutParams.WRAP_CONTENT
 					);
-					params.setMargins(x - 64, y - 64, 0, 0);
+					params.setMargins(x - 12, y - 12, 0, 0);
 					
 					indicator.setVisibility(View.VISIBLE);
 					indicator.setLayoutParams(params);
@@ -96,8 +102,11 @@ public class MainActivity extends Activity {
 					colorBlock.setVisibility(View.VISIBLE);
 					colorBlock.setBackgroundColor(pixel);
 					
+					colorBlockBorder.setVisibility(View.VISIBLE);
+					colorBlockBg.setVisibility(View.VISIBLE);
+					
 					handler.removeCallbacks(delayedHide);
-					handler.postDelayed(delayedHide, 6 * 1000);
+					handler.postDelayed(delayedHide, 4 * 1000);
 					
 					String colorName = ColorExt.getColorName(pixel);
 					if (colorName != null) {

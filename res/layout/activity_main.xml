@@ -22,9 +22,27 @@
         tools:ignore="ContentDescription" />
 
     <View
+        android:id="@+id/colorBlockBg"
+        android:layout_width="fill_parent"
+        android:layout_height="116dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="6dp"
+        android:background="#ffffffff"
+        android:visibility="invisible" />
+
+    <View
+        android:id="@+id/colorBlockBorder"
+        android:layout_width="fill_parent"
+        android:layout_height="112dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="8dp"
+        android:background="#ff000000"
+        android:visibility="invisible" />
+
+    <View
         android:id="@+id/colorBlock"
         android:layout_width="fill_parent"
-        android:layout_height="60dp"
+        android:layout_height="110dp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="9dp"
         android:visibility="invisible" />
@@ -54,9 +72,14 @@
         android:src="@drawable/btn_browse"
         tools:ignore="ContentDescription" />
 
-    <View
+    <ImageView
         android:id="@+id/indicator"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="44dp"
+        android:layout_marginTop="75dp"
+        android:src="@drawable/indicator"
+        android:visibility="invisible"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>
