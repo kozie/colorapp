@@ -118,7 +118,7 @@ public class MainActivity extends Activity {
 			}
 		});
         
-        // Browser button
+        // Browse button
         browseBtn = (ImageButton) findViewById(R.id.browse_btn);
         browseBtn.setOnClickListener(new View.OnClickListener() {
 			
