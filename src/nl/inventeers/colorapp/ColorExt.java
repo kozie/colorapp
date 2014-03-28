@@ -36,7 +36,7 @@ public class ColorExt extends Color {
 				if (h >= 0 && h <= 13) {
 					colorString = "Bruin";
 				} else if (h > 13 && h <= 38) {
-					colorString = "Bruin";
+					colorString = "Oranje";
 				} else if (h > 38 && h <= 60) {
 					colorString = "Goud";
 				} else if (h > 60 && h <= 136) {

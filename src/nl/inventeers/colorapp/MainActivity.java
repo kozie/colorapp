@@ -1,6 +1,7 @@
 package nl.inventeers.colorapp;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import android.media.ExifInterface;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.MediaStore;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -29,6 +31,7 @@ import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.Toast;
 
+@SuppressLint("SdCardPath")
 public class MainActivity extends Activity {
 	
 	static final int BROWSE_IMG = 0x1001;
@@ -46,11 +49,13 @@ public class MainActivity extends Activity {
 	
 	Runnable delayedHide;
 	Handler handler = new Handler();
+	
+	int version = android.os.Build.VERSION.SDK_INT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        Log.i("version", "Version: "+version);
         // No title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
@@ -91,7 +96,13 @@ public class MainActivity extends Activity {
 					        LayoutParams.WRAP_CONTENT,
 					        LayoutParams.WRAP_CONTENT
 					);
-					params.setMargins(x - 12, y - 12, 0, 0);
+					
+					// Dirty hack :'(
+					if (version < 11) {
+						params.setMargins(x, y, 0, 0);
+					} else {
+						params.setMargins(x - 12, y - 12, 0, 0);
+					}
 					
 					indicator.setVisibility(View.VISIBLE);
 					indicator.setLayoutParams(params);
@@ -136,6 +147,23 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				Intent i = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+				
+				if (_hasImageCaptureBug()) {
+				    File tmpFile = new File("/sdcard/tmp");
+				    i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, Uri.fromFile(tmpFile));
+				    
+				    // Another dirty hack :'(
+				    tmpFile.mkdirs();
+					
+					//File file = new File(Environment.getExternalStorageDirectory(), "colorapp.jpg");
+					//Uri outputFileUri = Uri.fromFile(file);
+					//Uri outputFileUri = getContentResolver().insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, 
+				            //new ContentValues());
+					//i.putExtra(MediaStore.EXTRA_OUTPUT, outputFileUri);
+				}/* else {
+				    i.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+				}*/
+				
 				startActivityForResult(i, CAPTURE_IMG);
 			}
 		});
@@ -152,7 +180,21 @@ public class MainActivity extends Activity {
     		switch (requestCode) {
 			case BROWSE_IMG:
 			case CAPTURE_IMG:
-				selectedImg = data.getData();
+				if (_hasImageCaptureBug()) {
+					//File fi = new File(Environment.getExternalStorageDirectory(), "colorapp.jpg");
+					File fi = new File("/sdcard/tmp");
+					try {
+						//selectedImg = Uri.parse(android.provider.MediaStore.Images.Media.insertImage(getContentResolver(), fi.getAbsolutePath(), null, null));
+						selectedImg = Uri.parse(android.provider.MediaStore.Images.Media.insertImage(getContentResolver(), fi.getAbsolutePath(), null, null));
+						if (!fi.delete()) {
+							Log.i("logMarker", "Failed to delete " + fi);
+						}
+					} catch (FileNotFoundException e) {
+						e.printStackTrace();
+					}
+				} else {
+					selectedImg = data.getData();
+				}
 				
 				break;
     		}
@@ -220,6 +262,23 @@ public class MainActivity extends Activity {
 				}
     		}
     	}
+    }
+    
+    protected boolean _hasImageCaptureBug() {
+    	if (version < 11) return true;
+    	
+    	return false;
+        // list of known devices that have the bug
+        /*ArrayList<String> devices = new ArrayList<String>();
+        devices.add("android-devphone1/dream_devphone/dream");
+        devices.add("generic/sdk/generic");
+        devices.add("vodafone/vfpioneer/sapphire");
+        devices.add("tmobile/kila/dream");
+        devices.add("verizon/voles/sholes");
+        devices.add("google_ion/google_ion/sapphire");
+        
+        return devices.contains(android.os.Build.BRAND + "/" + android.os.Build.PRODUCT + "/"
+               + android.os.Build.DEVICE);*/
     }
     
     @Override
