@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
@@ -59,6 +60,9 @@ public class MainActivity extends Activity {
         // No title bar
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
+        
+        // Init color names
+        ColorExt.initColorMap();
         
         // Color block
         colorBlock = findViewById(R.id.colorBlock);
@@ -109,7 +113,29 @@ public class MainActivity extends Activity {
 					
 					Bitmap bmp = ((BitmapDrawable) img.getDrawable()).getBitmap();
 					
-					int pixel = bmp.getPixel(x, y);
+					int foundPixels = 0;
+					int range = 2;
+					int xx = 0, yy = 0;
+					int r = 0, g = 0, b = 0;
+					int pixel = 0, tmpPixel = 0;
+					//int pixel = bmp.getPixel(x, y);
+					
+					for (xx = (x - range); xx <= (x + range); xx++) {
+						for (yy = (y - range); yy <= (y + range); yy++) {
+							
+							try {
+								tmpPixel = bmp.getPixel(xx, yy);
+								foundPixels++;
+								
+								r += Color.red(tmpPixel);
+								g += Color.green(tmpPixel);
+								b += Color.blue(tmpPixel);
+							} catch (Exception e) {}
+						}
+					}
+					
+					pixel = 0xff000000 | (r / foundPixels) << 16 | (g / foundPixels) << 8 | (b / foundPixels);
+					
 					colorBlock.setVisibility(View.VISIBLE);
 					colorBlock.setBackgroundColor(pixel);
 					
